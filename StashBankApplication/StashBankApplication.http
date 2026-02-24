@@ -1,0 +1,6 @@
+@StashBankApplication_HostAddress = http://localhost:5095
+
+GET {{StashBankApplication_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
