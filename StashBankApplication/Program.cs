@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.AddScoped<IUserServices, UserServicesImpl>();
 builder.Services.AddScoped<IAccountServices, AccountServicesImpl>();
+builder.Services.AddScoped<ITransferServices, TransferServicesImpl>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 var app = builder.Build();
 
