@@ -1,4 +1,7 @@
-﻿using StashBankApplication.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using StashBankApplication.Domain.Enums;
+using StashBankApplication.DTOs.Deposit;
+using StashBankApplication.Model;
 using StashBankApplication.Model.Context;
 using StashBankApplication.Repository;
 
@@ -9,9 +12,11 @@ namespace StashBankApplication.Services.Impl
         private MSSQLContext _context;
         private IRepository<Account> _repository;
 
-        public AccountServicesImpl(IRepository<Account> repository)
+        public AccountServicesImpl(IRepository<Account> repository,
+            MSSQLContext context)
         {
             _repository = repository;
+            _context = context;
         }
         public List<Account> FindAll()
         {
@@ -35,6 +40,31 @@ namespace StashBankApplication.Services.Impl
         public void Delete(Account account)
         {
             _repository.Delete(account);
+        }
+
+        public async Task DepositAsync(DepositRequest request)
+        {
+            if (request.Amount <= 0)
+                throw new Exception("Amount must be greater than zero.");
+
+            var account = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.id == request.AccountId);
+
+            if (account == null)
+                throw new Exception("Account not found.");
+
+            account.funds += request.Amount;
+
+            var transaction = new Transaction
+            {
+                accountid = account.id,
+                value = request.Amount,
+                type = TransactionType.Credit,
+                createdon = DateTime.UtcNow
+            };
+            _context.Transactions.Add(transaction);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

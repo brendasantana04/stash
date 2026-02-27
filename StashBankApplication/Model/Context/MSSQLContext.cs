@@ -12,7 +12,6 @@ namespace StashBankApplication.Model.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Transaction> Transactions{ get; set; }
         public DbSet<Transfer> Transfers{ get; set; }
-        public DbSet<TransferRequest> TransfersRequests{ get; set; }
     }
 
 }

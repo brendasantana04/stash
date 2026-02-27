@@ -1,4 +1,5 @@
-﻿using StashBankApplication.Model;
+﻿using StashBankApplication.DTOs.Deposit;
+using StashBankApplication.Model;
 
 namespace StashBankApplication.Services
 {
@@ -9,5 +10,6 @@ namespace StashBankApplication.Services
         List<Account> FindAll();
         Account Update(Account account);
         void Delete(Account account);
+        Task DepositAsync(DepositRequest request);
     }
 }

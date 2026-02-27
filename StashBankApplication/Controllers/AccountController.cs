@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StashBankApplication.DTOs.Deposit;
 using StashBankApplication.Model;
 using StashBankApplication.Services;
 
@@ -50,6 +51,13 @@ namespace StashBankApplication.Controllers
         {
             _accountServices.Delete(account);
             return NoContent();
+        }
+
+        [HttpPost("deposit")]
+        public async Task<IActionResult> Deposit([FromBody] DepositRequest request)
+        {
+            await _accountServices.DepositAsync(request);
+            return Ok("Deposit successful.");
         }
     }
 }

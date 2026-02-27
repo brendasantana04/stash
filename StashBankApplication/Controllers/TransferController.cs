@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StashBankApplication.Model;
+using StashBankApplication.DTOs.Transfer;
 using StashBankApplication.Services;
 
 namespace StashBankApplication.Controllers
