@@ -9,7 +9,7 @@ namespace StashBankApplication.Model
     [Table("card")]
     public class Card : BaseEntity
     {
-        [Column("account_id")]
+        [Column("accountId")]
         public long AccountId { get; set; }
 
         [JsonIgnore]

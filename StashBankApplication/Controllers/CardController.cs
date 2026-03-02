@@ -43,5 +43,12 @@ namespace StashBankApplication.Controllers
             await _cardService.UpgradeCard(accountId);
             return NoContent();
         }
+
+        [HttpPost("{accountId}/add-card")]
+        public async Task<IActionResult> CreateCard(long accountId)
+        {
+            var card = await _cardService.CreateCardAsync(accountId);
+            return Ok(card);
+        }
     }
 }

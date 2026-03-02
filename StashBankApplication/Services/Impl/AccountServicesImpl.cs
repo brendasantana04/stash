@@ -75,29 +75,5 @@ namespace StashBankApplication.Services.Impl
 
             await _context.SaveChangesAsync();
         }
-
-        public async Task<Account> CreateAccountAsync(Account account)
-        {
-            account.funds = 0;
-
-            var card = new Card
-            {
-                Tier = CardTier.Basic,
-                CreditLimit = 1000,
-                AvailableCredit = 1000,
-                createdon = DateTime.UtcNow,
-                IsActive = true,
-            };
-
-            _context.Add(card);
-            _cardRepository.Create(card);
-            account.Card = card;
-
-            await _context.Accounts.AddAsync(account);
-            await _context.SaveChangesAsync();
-
-            Console.WriteLine($"Account created with ID: {account.id} and Card ID: {card.id}");
-            return account;
-        }
     }
 }

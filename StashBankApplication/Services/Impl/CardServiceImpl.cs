@@ -1,4 +1,5 @@
-﻿using StashBankApplication.Domain.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using StashBankApplication.Domain.Enums;
 using StashBankApplication.Domain.Policies;
 using StashBankApplication.Model;
 using StashBankApplication.Model.Context;
@@ -121,6 +122,31 @@ namespace StashBankApplication.Services.Impl
 
             await _repository.UpdateAsync(card);
             Console.WriteLine($"Cartão atualizado para {card.Tier} com limite de {card.CreditLimit:C}");
+        }
+
+        public async Task<Card> CreateCardAsync(long accountId)
+        {
+            var accountExists = await _context.Accounts
+                .AnyAsync(a => a.id == accountId);
+
+            if (!accountExists)
+                throw new Exception("Conta não encontrada");
+            Account account = await _accountRepository.GetByIdAsync(accountId);
+
+            var card = new Card
+            {
+                AccountId = accountId,
+                Tier = CardTier.Basic,
+                CreditLimit = 1000,
+                AvailableCredit = 1000,
+                IsActive = true,
+                createdon = DateTime.UtcNow
+            };
+
+            await _context.Cards.AddAsync(card);
+            await _context.SaveChangesAsync();
+
+            return card;
         }
     }
 }

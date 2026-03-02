@@ -12,5 +12,6 @@ namespace StashBankApplication.Services
         Task MakeCreditTransaction(long accountId, decimal amount);
         Task PayCreditBill(long accountId, decimal amount);
         Task UpgradeCard(long accountId);
+        Task<Card> CreateCardAsync(long accountId);
     }
 }
