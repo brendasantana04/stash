@@ -12,6 +12,7 @@ namespace StashBankApplication.Model
         public long accountid { get; set; }
         public TransactionType type { get; set; }
         public decimal value { get; set; }
+        public Account Account { get; set; }
         public string description { get; set; }
     }
 }

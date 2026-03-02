@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using StashBankApplication.Domain.Enums;
 using StashBankApplication.DTOs.Deposit;
 using StashBankApplication.Model;
 using StashBankApplication.Model.Context;
 using StashBankApplication.Repository;
+using System.Security.Cryptography.Xml;
 
 namespace StashBankApplication.Services.Impl
 {
@@ -11,13 +13,18 @@ namespace StashBankApplication.Services.Impl
     {
         private MSSQLContext _context;
         private IRepository<Account> _repository;
+        private IRepository<Card> _cardRepository;
 
         public AccountServicesImpl(IRepository<Account> repository,
+            IRepository<Card> cardRepository,
             MSSQLContext context)
         {
             _repository = repository;
+            _cardRepository = cardRepository;
             _context = context;
         }
+
+        #region CRUD
         public List<Account> FindAll()
         {
             return _repository.FindAll();
@@ -42,6 +49,8 @@ namespace StashBankApplication.Services.Impl
             _repository.Delete(account);
         }
 
+        #endregion
+
         public async Task DepositAsync(DepositRequest request)
         {
             if (request.Amount <= 0)
@@ -65,6 +74,30 @@ namespace StashBankApplication.Services.Impl
             _context.Transactions.Add(transaction);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Account> CreateAccountAsync(Account account)
+        {
+            account.funds = 0;
+
+            var card = new Card
+            {
+                Tier = CardTier.Basic,
+                CreditLimit = 1000,
+                AvailableCredit = 1000,
+                createdon = DateTime.UtcNow,
+                IsActive = true,
+            };
+
+            _context.Add(card);
+            _cardRepository.Create(card);
+            account.Card = card;
+
+            await _context.Accounts.AddAsync(account);
+            await _context.SaveChangesAsync();
+
+            Console.WriteLine($"Account created with ID: {account.id} and Card ID: {card.id}");
+            return account;
         }
     }
 }

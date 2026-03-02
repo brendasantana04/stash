@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StashBankApplication.Model;
 using StashBankApplication.Model.Base;
 using StashBankApplication.Model.Context;
+using System.Linq.Expressions;
 
 namespace StashBankApplication.Repository.Impl
 {
@@ -50,6 +51,33 @@ namespace StashBankApplication.Repository.Impl
             _context.Entry(existingItem).CurrentValues.SetValues(item);
             _context.SaveChanges();
             return item;
+        }
+
+        public async Task AddAsync(T entity)
+        {
+            await _dataset.AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            _dataset.Update(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<T> GetByIdAsync(long id)
+        {
+            return await _dataset.FindAsync(id);
+        }
+
+        public async Task<T?> GetByIdAsync(long id, params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _dataset;
+
+            foreach (var include in includes)
+                query = query.Include(include);
+
+            return await query.FirstOrDefaultAsync(e => e.id == id);
         }
     }
 }

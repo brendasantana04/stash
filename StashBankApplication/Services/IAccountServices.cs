@@ -11,5 +11,6 @@ namespace StashBankApplication.Services
         Account Update(Account account);
         void Delete(Account account);
         Task DepositAsync(DepositRequest request);
+        Task<Account> CreateAccountAsync(Account account);
     }
 }

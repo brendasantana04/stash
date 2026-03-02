@@ -34,6 +34,7 @@ namespace StashBankApplication.Controllers
         public IActionResult Post([FromBody] Account account)
         {
             var createdAccount = _accountServices.Create(account);
+            _accountServices.CreateAccountAsync(createdAccount);
             if (createdAccount == null) return NotFound();
             return Ok(createdAccount);
         }

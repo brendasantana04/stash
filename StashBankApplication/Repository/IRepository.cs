@@ -1,5 +1,6 @@
 ﻿using StashBankApplication.Model;
 using StashBankApplication.Model.Base;
+using System.Linq.Expressions;
 
 namespace StashBankApplication.Repository
 {
@@ -10,5 +11,13 @@ namespace StashBankApplication.Repository
         List<T> FindAll();
         T Update(T item);
         void Delete(T item);
+        Task AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task<T> GetByIdAsync(long id);
+        Task<T?> GetByIdAsync(
+            long id,
+            params Expression<Func<T, object>>[] includes
+        );
+
     }
 }

@@ -11,7 +11,6 @@ namespace StashBankApplication.Model
         [Column("user_id")]
         [ForeignKey("user")]
         public long userid { get; set; }
-        public User user { get; set; }
 
         [Required]
         [Column("name", TypeName = "varchar(40)")]
@@ -24,5 +23,8 @@ namespace StashBankApplication.Model
         [Required]
         [Column("active", TypeName = "bool")]
         public bool active { get; set; }
+
+        public Card Card { get; set; }
+
     }
 }
