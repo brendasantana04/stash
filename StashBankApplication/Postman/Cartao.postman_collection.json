@@ -1,0 +1,112 @@
+{
+  "info": {
+    "_postman_id": "0bfdf340-e2c8-4e2a-9f12-f6f7516a970c",
+    "name": "Cartao",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49678763",
+    "_collection_link": "https://go.postman.co/collection/49678763-0bfdf340-e2c8-4e2a-9f12-f6f7516a970c?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "upgrade no cartao",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7288/api/card/11/upgrade",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7288",
+          "path": [
+            "api",
+            "card",
+            "11",
+            "upgrade"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "adicionar cartao na conta",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "credit transaction",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id_account_from\": 10,\r\n  \"id_account_to\": 9,\r\n  \"value\": 150.75\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7288/api/card/10/credit-transaction",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7288",
+          "path": [
+            "api",
+            "card",
+            "10",
+            "credit-transaction"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "pagar contas",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id_account_from\": 10,\r\n  \"id_account_to\": 9,\r\n  \"value\": 150.75\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7288/api/card/10/credit-transaction",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7288",
+          "path": [
+            "api",
+            "card",
+            "10",
+            "credit-transaction"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

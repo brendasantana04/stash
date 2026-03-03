@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="db\dataset\" />
+    <Folder Include="Postman\" />
   </ItemGroup>
 
 </Project>

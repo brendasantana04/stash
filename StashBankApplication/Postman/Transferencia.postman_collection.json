@@ -1,0 +1,74 @@
+{
+  "info": {
+    "_postman_id": "3847bbe6-6df3-403d-ab81-7b29529fba87",
+    "name": "Transferencia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49678763",
+    "_collection_link": "https://go.postman.co/collection/49678763-3847bbe6-6df3-403d-ab81-7b29529fba87?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "transferir dinheiro",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"accountId\": \"10\",\r\n    \"amount\": \"300\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7288/api/account/deposit",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7288",
+          "path": [
+            "api",
+            "account",
+            "deposit"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "extrato",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"accountId\": \"3\",\r\n  \"startDate\": \"2026-02-01\",\r\n  \"endDate\": \"2026-02-28\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7288/api/statement/",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7288",
+          "path": [
+            "api",
+            "statement",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
