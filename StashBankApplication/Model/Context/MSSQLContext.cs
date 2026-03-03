@@ -13,6 +13,7 @@ namespace StashBankApplication.Model.Context
         public DbSet<Transaction> Transactions{ get; set; }
         public DbSet<Transfer> Transfers{ get; set; }
         public DbSet<Card> Cards { get; set; }
+        public DbSet<SavingsBox> SavingsBoxes{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

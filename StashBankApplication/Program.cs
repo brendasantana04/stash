@@ -23,6 +23,7 @@ builder.Services.AddScoped<ITransferServices, TransferServicesImpl>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<ICardLimitPolicy, CardLimitPolicy>();
 builder.Services.AddScoped<ICardService, CardServiceImpl>();
+builder.Services.AddScoped<ISavingsBoxServices, SavingsBoxServicesImpl>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
