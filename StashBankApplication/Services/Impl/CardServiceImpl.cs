@@ -59,12 +59,11 @@ namespace StashBankApplication.Services.Impl
         /// </summary>
         public async Task MakeCreditTransaction(long accountId, decimal amount)
         {
-            var account = await _context.Accounts.FindAsync(accountId);
+            var card = await _context.Cards
+                .FirstOrDefaultAsync(c => c.AccountId == accountId)
+                ?? throw new InvalidOperationException($"Account {accountId} has no card.");
 
-            if (account.Card.AvailableCredit < amount)
-                throw new Exception("Limite de crédito insuficiente");
-
-            account.Card.AvailableCredit -= amount;
+            card.AvailableCredit -= amount;
 
             var transaction = new Transaction
             {
@@ -76,26 +75,32 @@ namespace StashBankApplication.Services.Impl
             };
 
             await _context.Transactions.AddAsync(transaction);
-            await _repository.UpdateAsync(account.Card);
+            await _repository.UpdateAsync(card);
         }
 
         /// <summary>
-        /// Reponsável por processar o pagamento da fatura do cartão de crédito
+        /// Responsável por processar o pagamento da fatura do cartão de crédito
         /// </summary>
         public async Task PayCreditBill(long accountId, decimal amount)
         {
             var account = await _accountRepository.GetByIdAsync(accountId);
 
+            var card = await _context.Cards
+                .FirstOrDefaultAsync(c => c.AccountId == accountId)
+                ?? throw new InvalidOperationException($"Account {accountId} has no card.");
+
+
             if (account.funds < amount)
                 throw new Exception("Saldo insuficiente");
 
             account.funds -= amount;
-            account.Card.AvailableCredit += amount;
+            card.AvailableCredit += amount;
 
-            if (account.Card.AvailableCredit > account.Card.CreditLimit)
-                account.Card.AvailableCredit = account.Card.CreditLimit;
+            if (card.AvailableCredit > card.CreditLimit)
+                card.AvailableCredit = card.CreditLimit;
 
             await _accountRepository.UpdateAsync(account);
+            Console.WriteLine("Fatura paga");
         }
 
         /// <summary>
@@ -104,10 +109,8 @@ namespace StashBankApplication.Services.Impl
         /// </summary>
         public async Task UpgradeCard(long accountId)
         {
-            var account = await _accountRepository.GetByIdAsync(accountId, a => a.Card)
-                ?? throw new InvalidOperationException($"Account {accountId} not found.");
-
-            var card = account.Card
+            var card = await _context.Cards
+                .FirstOrDefaultAsync(c => c.AccountId == accountId)
                 ?? throw new InvalidOperationException($"Account {accountId} has no card.");
 
             if (card.Tier == CardTier.UltraHighLuxury)
@@ -124,6 +127,9 @@ namespace StashBankApplication.Services.Impl
             Console.WriteLine($"Cartão atualizado para {card.Tier} com limite de {card.CreditLimit:C}");
         }
 
+        /// <summary>
+        /// Cria um cartao para uma nova conta sem cartao associado
+        /// </summary>
         public async Task<Card> CreateCardAsync(long accountId)
         {
             var accountExists = await _context.Accounts
@@ -143,6 +149,7 @@ namespace StashBankApplication.Services.Impl
                 createdon = DateTime.UtcNow
             };
 
+            account.Card = card;
             await _context.Cards.AddAsync(card);
             await _context.SaveChangesAsync();
 
