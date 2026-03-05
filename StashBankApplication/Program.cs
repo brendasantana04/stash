@@ -14,8 +14,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
-
 builder.Services.AddEvolveConfiguration(builder.Configuration, builder.Environment);
+builder.Services.AddCorsConfiguration(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IFIleServices, FileServiceImpl>();
 
 builder.Services.AddScoped<IUserServices, UserServicesImpl>();
 builder.Services.AddScoped<IAccountServices, AccountServicesImpl>();
@@ -29,6 +32,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCorsConfiguration();
 
 app.UseAuthorization();
 

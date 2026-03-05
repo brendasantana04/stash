@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="Stash.Tests/StashBankApplication.Tests.csproj" Id="aa41372e-ceed-4c52-a5fa-f1e3e629d1d9" />
   <Project Path="StashBankApplication/StashBankApplication.csproj" />
 </Solution>
